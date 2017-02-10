@@ -3,7 +3,7 @@
  */
 import {describe} from 'mocha';
 import {assert} from 'chai';
-import {List} from 'immutable';
+import {List, Map} from 'immutable';
 
 describe('immutability', ()=>{
   describe('a number', ()=>{
@@ -17,15 +17,17 @@ describe('immutability', ()=>{
       assert(state===42);
     })
   });
-  describe('a List', ()=>{
+  describe('a Tree', ()=>{
     function addItem(currentState, item){
-      return currentState.push(item);
+      return currentState.set('content',
+        currentState.get('content').push(item));
     }
     it('is immutable', ()=>{
-      let state = List.of('AA', 'BB');
+      let state = Map({
+        content: List.of('AA', 'BB')});
       let nextState = addItem(state, 'CC');
-      assert.equal(nextState, List.of('AA', 'BB', 'CC'));
-      assert.equal(state, List.of('AA', 'BB'));
+      assert.equal(nextState, Map({content: List.of('AA', 'BB', 'CC')}));
+      assert.equal(state, Map({content:List.of('AA', 'BB')}));
     });
   });
 });
