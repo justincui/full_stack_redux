@@ -42,13 +42,13 @@ describe('application logic', () => {
             }));
         });
 
-        it('marks winner when just one entry left', ()=>{
+        it('marks winner when just one entry left', () => {
             const state = Map({
                 vote: Map({
                     pair: List.of('AA', 'BB'),
                     tally: Map({
-                        'AA':4,
-                        'BB':2,
+                        'AA': 4,
+                        'BB': 2,
                     }),
                 }),
                 entries: List(),
@@ -62,43 +62,29 @@ describe('application logic', () => {
     describe('vote', () => {
 
         it('creates a tally for the voted entry', () => {
-            const state = Map({
-                vote: Map({pair: List.of('AA', 'BB')}),
-                entries: List()
-            });
+            const state = Map({pair: List.of('AA', 'BB')});
             const nextState = vote(state, 'AA');
             expect(nextState).to.equal(Map({
-                vote: Map({
-                    pair: List.of('AA', 'BB'),
-                    tally: Map({
-                        'AA': 1
-                    })
+                pair: List.of('AA', 'BB'),
+                tally: Map({
+                    'AA': 1
                 }),
-                entries: List()
             }));
         });
 
         it('adds to existing tally for the voted entry', () => {
             const state = Map({
-                vote: Map({
-                    pair: List.of('AA', 'BB'),
-                    tally: Map({
-                        'AA': 3,
-                        'BB': 2
-                    }),
+                pair: List.of('AA', 'BB'),
+                tally: Map({
+                    'AA': 3,
+                    'BB': 2
                 }),
-                entries: List()
             });
             const nextState = vote(state, 'AA');
             expect(nextState).to.equal(Map({
-                vote: Map({
-                    pair: List.of('AA', 'BB'),
-                    tally: Map({'AA': 4, 'BB': 2}),
-                }),
-                entries: List()
+                pair: List.of('AA', 'BB'),
+                tally: Map({'AA': 4, 'BB': 2}),
             }));
         });
-
-
     });
 });
