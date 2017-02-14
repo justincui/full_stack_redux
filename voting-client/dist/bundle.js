@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "35e8947edd575443de15"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "6852727574a2745d923a"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotMainModule = true; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -7780,7 +7780,7 @@ function reloadApp() {
 	}
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, "?http://localhost:8080"))
+/* WEBPACK VAR INJECTION */}.call(exports, "?http://0.0.0.0:8080"))
 
 /***/ }),
 /* 73 */
