@@ -35,6 +35,16 @@ describe('Voting', () => {
         Simulate.click(buttons[0]);
         expect(votedWith).to.equal('AA');
     });
+
+    it('disable buttons when user has voted', () => {
+        const component = renderIntoDocument(
+            <Voting pair={["AA", "BB"]} hasVoted="AA"/>
+        );
+        const buttons = scryRenderedDOMComponentsWithTag(component, 'button');
+        expect(buttons.length).to.equal(2);
+        expect(buttons[0].hasAttribute('disabled')).to.equal(true);
+        expect(buttons[1].hasAttribute('disabled')).to.equal(true);
+    });
 });
 
 
