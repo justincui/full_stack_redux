@@ -1,7 +1,6 @@
 /**
  * Created by justincui on 2/11/17.
  */
-import {describe} from 'mocha';
 import {expect} from 'chai';
 import {List, Map, fromJS} from 'immutable';
 

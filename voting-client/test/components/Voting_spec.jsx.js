@@ -1,7 +1,6 @@
 /**
  * Created by justicui on 2/13/17.
  */
-import {describe} from 'mocha';
 import {expect} from 'chai';
 
 import React from 'react';

@@ -1,4 +1,3 @@
-import {describe} from 'mocha';
 import {expect} from 'chai';
 
 import {setEntries, next, vote} from '../src/core';
