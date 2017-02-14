@@ -45,6 +45,26 @@ describe('Voting', () => {
         expect(buttons[0].hasAttribute('disabled')).to.equal(true);
         expect(buttons[1].hasAttribute('disabled')).to.equal(true);
     });
+
+    it('adds label to the voted entry', () => {
+        const component = renderIntoDocument(
+            <Voting pair={["AA", "BB"]} hasVoted="AA"/>
+        );
+        const buttons = scryRenderedDOMComponentsWithTag(component, 'button');
+        expect(buttons[0].textContent).to.contain('Voted');
+    });
+
+    it('renders just the winner when there is one', () => {
+        const component = renderIntoDocument(
+          <Voting winner="AA"/>
+        );
+        const buttons=scryRenderedDOMComponentsWithTag(component, 'button');
+        expect(buttons.length).to.equal(0);
+        const winner = ReactDOM.findDOMNode(component.refs.winner);
+        expect(winner).to.be.ok;
+        expect(winner.textContent).to.contain('AA');
+    });
+
 });
 
 
