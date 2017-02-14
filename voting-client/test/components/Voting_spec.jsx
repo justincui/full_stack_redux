@@ -65,6 +65,25 @@ describe('Voting', () => {
         expect(winner.textContent).to.contain('AA');
     });
 
+    it('renders as a pure component', () => {
+        const pair = ['Trainspotting', '28 Days Later'];
+        const container = document.createElement('div');
+        let component = ReactDOM.render(
+            <Voting pair={pair} />,
+            container
+        );
+
+        let firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];
+        expect(firstButton.textContent).to.equal('Trainspotting');
+
+        pair[0] = 'Sunshine';
+        component = ReactDOM.render(
+            <Voting pair={pair} />,
+            container
+        );
+        firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];
+        expect(firstButton.textContent).to.equal('Trainspotting');
+    });
 });
 
 
