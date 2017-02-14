@@ -10,6 +10,7 @@ import {
     scryRenderedDOMComponentsWithTag,
     Simulate,
 } from 'react-addons-test-utils';
+import {List} from 'immutable';
 
 import Voting from '../../src/components/Voting';
 
@@ -56,9 +57,9 @@ describe('Voting', () => {
 
     it('renders just the winner when there is one', () => {
         const component = renderIntoDocument(
-          <Voting winner="AA"/>
+            <Voting winner="AA"/>
         );
-        const buttons=scryRenderedDOMComponentsWithTag(component, 'button');
+        const buttons = scryRenderedDOMComponentsWithTag(component, 'button');
         expect(buttons.length).to.equal(0);
         const winner = ReactDOM.findDOMNode(component.refs.winner);
         expect(winner).to.be.ok;
@@ -69,7 +70,7 @@ describe('Voting', () => {
         const pair = ['Trainspotting', '28 Days Later'];
         const container = document.createElement('div');
         let component = ReactDOM.render(
-            <Voting pair={pair} />,
+            <Voting pair={pair}/>,
             container
         );
 
@@ -78,11 +79,30 @@ describe('Voting', () => {
 
         pair[0] = 'Sunshine';
         component = ReactDOM.render(
-            <Voting pair={pair} />,
+            <Voting pair={pair}/>,
             container
         );
         firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];
         expect(firstButton.textContent).to.equal('Trainspotting');
+    });
+
+    it('does update DOM when prop changes', () => {
+        const pair = List.of('AA', 'BB');
+        const container = document.createElement('div');
+        let component = ReactDOM.render(
+            <Voting pair={pair}/>,
+            container
+        );
+        let firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];
+        expect(firstButton.textContent).to.equal('AA');
+
+        const newPair=pair.set(0,'CC');
+        component = ReactDOM.render(
+            <Voting pair={newPair} />,
+            container
+        );
+        firstButton=scryRenderedDOMComponentsWithTag(component, 'button')[0];
+        expect(firstButton.textContent).to.equal('CC');
     });
 });
 
