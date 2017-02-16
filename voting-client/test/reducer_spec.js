@@ -63,4 +63,39 @@ describe('reducer', () => {
         }));
     });
 
+    it('handles VOTE by setting hasVoted', ()=>{
+        const state=fromJS({
+           vote:{
+               pair:['AA', 'BB'],
+               tally:{'AA':1},
+           },
+        });
+        const action = {type:'VOTE', entry:'AA'};
+        const nextState = reducer(state, action);
+        expect(nextState).to.equal(fromJS({
+            vote:{
+                pair:['AA', 'BB'],
+                tally:{'AA':1},
+            },
+            hasVoted:'AA',
+        }));
+    });
+
+    it('does not set hasVoted for VOTE on invalid entry', ()=>{
+        const state = fromJS({
+           vote:{
+               pair:['AA','BB'],
+               tally:{'AA':1},
+           },
+        });
+        const action={type:'VOTE', entry:'CC'};
+        const nextState = reducer(state, action);
+        expect(nextState).to.equal(fromJS({
+            vote:{
+                pair:['AA','BB'],
+                tally:{'AA':1},
+            }
+        }));
+    });
+
 });

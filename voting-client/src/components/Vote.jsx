@@ -24,7 +24,7 @@ export default class Vote extends Component {
 
     render() {
         return <div className="voting">
-            {this.props.pair.map(entry =>
+            {this.getPair().map(entry =>
                 <button key={entry}
                         disabled={this.isDisabled()}
                         onClick={() => this.props.vote(entry)}
