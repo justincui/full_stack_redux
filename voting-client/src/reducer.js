@@ -1,23 +1,35 @@
-import {Map} from 'immutable';
+import {Map, List} from 'immutable';
 
-function setState(state, newState){
+function setState(state, newState) {
     return state.merge(newState);
 }
 
 function vote(state, entry) {
-    const currentPair=state.getIn(['vote', 'pair']);
-    if(currentPair && currentPair.includes(entry)){
-        return state.set('hasVoted', entry);
+    const currentPair = state.getIn(['vote', 'pair']);
+    if (currentPair && currentPair.includes(entry)) {
+        const nextState= state.set('hasVoted', entry);
+        return nextState;
     }
-    else{
+    else {
         return state;
     }
 }
 
-export default function reducer(state=Map(), action){
-    switch (action.type){
+function resetVote(state) {
+    const hasVoted = state.get('hasVoted');
+    const currentPair = state.getIn(['volt', 'pair'], List());
+    if (hasVoted && !currentPair.includes(hasVoted)) {
+        return state.remove('hasVoted');
+    }
+    else {
+        return state;
+    }
+}
+
+export default function reducer(state = Map(), action) {
+    switch (action.type) {
         case 'SET_STATE':
-            return setState(state, action.state);
+            return resetVote(setState(state, action.state));
         case 'VOTE':
             return vote(state, action.entry);
     }

@@ -4,7 +4,7 @@ import {expect} from 'chai';
 import reducer from '../src/reducer';
 
 describe('reducer', () => {
-    it('handles SET_STATE', ()=>{
+    it('handles SET_STATE', () => {
         const initialState = Map();
         const action = {
             type: 'SET_STATE',
@@ -24,78 +24,101 @@ describe('reducer', () => {
         }));
     });
 
-    it('handles SET_STATE with plain JS payload', ()=>{
-       const initialState=Map();
-       const action ={
-           type: 'SET_STATE',
-           state:{
-               vote:{
-                   pair:['AA', 'BB'],
-                   tally:{'AA':1},
-               },
-           },
-       };
-       const nextState = reducer(initialState, action);
-       expect(nextState).to.equal(fromJS({
-           vote:{
-               pair:['AA', 'BB'],
-               tally:{'AA':1},
-           },
-       }));
+    it('handles SET_STATE with plain JS payload', () => {
+        const initialState = Map();
+        const action = {
+            type: 'SET_STATE',
+            state: {
+                vote: {
+                    pair: ['AA', 'BB'],
+                    tally: {'AA': 1},
+                },
+            },
+        };
+        const nextState = reducer(initialState, action);
+        expect(nextState).to.equal(fromJS({
+            vote: {
+                pair: ['AA', 'BB'],
+                tally: {'AA': 1},
+            },
+        }));
     });
 
-    it('handles SET_STATE without initial state', ()=>{
-        const action ={
+    it('handles SET_STATE without initial state', () => {
+        const action = {
             type: 'SET_STATE',
-            state:{
-                vote:{
-                    pair:['AA', 'BB'],
-                    tally:{'AA':1},
+            state: {
+                vote: {
+                    pair: ['AA', 'BB'],
+                    tally: {'AA': 1},
                 },
             },
         };
         const nextState = reducer(undefined, action);
         expect(nextState).to.equal(fromJS({
-            vote:{
-                pair:['AA', 'BB'],
-                tally:{'AA':1},
+            vote: {
+                pair: ['AA', 'BB'],
+                tally: {'AA': 1},
             },
         }));
     });
 
-    it('handles VOTE by setting hasVoted', ()=>{
-        const state=fromJS({
-           vote:{
-               pair:['AA', 'BB'],
-               tally:{'AA':1},
-           },
-        });
-        const action = {type:'VOTE', entry:'AA'};
-        const nextState = reducer(state, action);
-        expect(nextState).to.equal(fromJS({
-            vote:{
-                pair:['AA', 'BB'],
-                tally:{'AA':1},
-            },
-            hasVoted:'AA',
-        }));
-    });
-
-    it('does not set hasVoted for VOTE on invalid entry', ()=>{
+    it('handles VOTE by setting hasVoted', () => {
         const state = fromJS({
-           vote:{
-               pair:['AA','BB'],
-               tally:{'AA':1},
-           },
+            vote: {
+                pair: ['AA', 'BB'],
+                tally: {'AA': 1},
+            },
         });
-        const action={type:'VOTE', entry:'CC'};
+        const action = {type: 'VOTE', entry: 'AA'};
         const nextState = reducer(state, action);
         expect(nextState).to.equal(fromJS({
-            vote:{
-                pair:['AA','BB'],
-                tally:{'AA':1},
+            vote: {
+                pair: ['AA', 'BB'],
+                tally: {'AA': 1},
+            },
+            hasVoted: 'AA',
+        }));
+    });
+
+    it('does not set hasVoted for VOTE on invalid entry', () => {
+        const state = fromJS({
+            vote: {
+                pair: ['AA', 'BB'],
+                tally: {'AA': 1},
+            },
+        });
+        const action = {type: 'VOTE', entry: 'CC'};
+        const nextState = reducer(state, action);
+        expect(nextState).to.equal(fromJS({
+            vote: {
+                pair: ['AA', 'BB'],
+                tally: {'AA': 1},
             }
         }));
     });
 
+    it('removes hasVoted on SET_STATE if pair changes', () => {
+        const initialState = fromJS({
+            vote: {
+                pair: ['AA', 'BB'],
+                tally: {'AA': 1},
+            },
+            hasVoted: 'AA',
+        });
+        const action = {
+            type: 'SET_STATE',
+            state: {
+                vote: {
+                    pair: ['CC', 'DD'],
+                },
+            },
+        };
+        const nextState=reducer(initialState, action);
+        expect(nextState).to.equal(fromJS({
+            vote:{
+                pair:['CC','DD'],
+            }
+        }));
+    });
 });
