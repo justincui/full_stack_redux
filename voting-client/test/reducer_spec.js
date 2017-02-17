@@ -66,6 +66,7 @@ describe('reducer', () => {
     it('handles VOTE by setting hasVoted', () => {
         const state = fromJS({
             vote: {
+                round: 1,
                 pair: ['AA', 'BB'],
                 tally: {'AA': 1},
             },
@@ -74,10 +75,14 @@ describe('reducer', () => {
         const nextState = reducer(state, action);
         expect(nextState).to.equal(fromJS({
             vote: {
+                round: 1,
                 pair: ['AA', 'BB'],
                 tally: {'AA': 1},
             },
-            hasVoted: 'AA',
+            hasVoted: {
+                round: 1,
+                entry: 'AA',
+            },
         }));
     });
 
@@ -101,23 +106,29 @@ describe('reducer', () => {
     it('removes hasVoted on SET_STATE if pair changes', () => {
         const initialState = fromJS({
             vote: {
+                round:1,
                 pair: ['AA', 'BB'],
                 tally: {'AA': 1},
             },
-            hasVoted: 'AA',
+            hasVoted: {
+                round:1,
+                entry:'AA',
+            },
         });
         const action = {
             type: 'SET_STATE',
             state: {
                 vote: {
+                    round:2,
                     pair: ['CC', 'DD'],
                 },
             },
         };
-        const nextState=reducer(initialState, action);
+        const nextState = reducer(initialState, action);
         expect(nextState).to.equal(fromJS({
-            vote:{
-                pair:['CC','DD'],
+            vote: {
+                round:2,
+                pair: ['CC', 'DD'],
             }
         }));
     });

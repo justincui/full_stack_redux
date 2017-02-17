@@ -21,7 +21,10 @@ describe('application logic', () => {
             const state = Map({entries: List.of('AA', 'BB', 'CC')});
             const nextState = next(state);
             expect(nextState).to.equal(Map({
-                vote: Map({pair: List.of('AA', 'BB')}),
+                vote: Map({
+                    round: 1,
+                    pair: List.of('AA', 'BB'),
+                }),
                 entries: List.of('CC')
             }));
         });
@@ -29,6 +32,7 @@ describe('application logic', () => {
         it('puts winner of current vote back to entries', () => {
             const state = Map({
                 vote: Map({
+                    round: 2,
                     pair: List.of('AA', 'BB'),
                     tally: Map({'AA': 4, 'BB': 2}),
                 }),
@@ -36,7 +40,10 @@ describe('application logic', () => {
             });
             const nextState = next(state);
             expect(nextState).to.equal(Map({
-                vote: Map({pair: List.of('CC', 'DD')}),
+                vote: Map({
+                    round:3,
+                    pair: List.of('CC', 'DD'),
+                }),
                 entries: List.of('EE', 'AA'),
             }));
         });

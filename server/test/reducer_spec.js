@@ -33,10 +33,11 @@ describe('reducer', () => {
         const nextState = reducer(initialState, action);
         expect(nextState).to.equal(fromJS({
             vote: {
+                round:1,
                 pair: ['AA', 'BB'],
             },
             entries: [],
-        }))
+        }));
     });
 
     it('handles VOTE', () => {
